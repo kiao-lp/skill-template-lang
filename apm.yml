@@ -1,0 +1,9 @@
+{
+  "name": "template-lang",
+  "version": "1.0.0",
+  "description": "template-lang skill",
+  "targets": [
+    "codex",
+    "claude"
+  ]
+}
