@@ -124,11 +124,9 @@ All parts except `key` are optional:
 ### Type Specifications
 
 - **`text`**: Free-form text input
-- **`file`**: A file of the store, named by dragging it out of the navigation tree or the file
-  browser onto the box. It stays an ordinary text box — a path can be typed or corrected by hand.
-  The drop fills two fields: `${doc:file}` is the path from the store root, with a leading slash
-  and nothing escaped, and `${doc:file.name}` is the file's name alone. A dropped folder is taken
-  as its own path.
+- **`file`** accepts a file or folder dropped from the file browser. The drop sets `${doc:file}`
+  to its raw DCMS link and `${doc:file.name}` to its name. The field also accepts a typed or
+  pasted DCMS link. Percent-encode the path when using it as a Markdown link destination.
 - **`"val1"|"val2"|"val3"`**: Inline enum — rendered as a dropdown. Values are quoted and pipe-separated.
 - **Custom type name** (e.g., `AwsRegion`): Lookup against a type registry, rendered as a dropdown
 - **Type with field** (e.g., `AwsRegion.code`): Use a specific field from the type object
