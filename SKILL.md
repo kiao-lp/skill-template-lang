@@ -11,31 +11,29 @@ TemplateLang is a markdown-based template format that supports variable substitu
 
 A `.temp.md` file is a structured markdown document using headings to define templates:
 
-- **H1** (`#`): Template collection name (required, exactly one)
-- **Text between H1 and first H2**: Index/description text (optional)
-- **H2** (`##`): Template sections — either Root or sub-templates
-- **H3** (`###`): Template content blocks within each H2 section
+- An optional H1 (`#`) names a template.
+- H2 headings (`##`) identify Root and the sub-templates.
+- H3 headings (`###`) identify content blocks within each H2 section.
+
+Task description templates start at `## Root`. The task's title identifies them on the board.
+The parser skips prose before the first H2.
 
 ### Minimal Structure
 
-```markdown
-# Template Name
-
+````markdown
 ## Root
 
 ### textTemplate
 
 ```text
 Template content with ${variables}
-```​
 ```
+````
 
 ### Full Structure with Sub-Templates
 
-```markdown
+````markdown
 # Template Name
-
-Optional description text here.
 
 ## Root
 
@@ -44,7 +42,7 @@ Optional description text here.
 ```text
 ${sectionA}${sectionB}
 Main content using ${someVar:text}
-```​
+```
 
 ## Section A
 
@@ -52,13 +50,13 @@ Main content using ${someVar:text}
 
 ```text
 Default content when disabled
-```​
+```
 
 ### textTemplate
 
 ```text
 Content when Section A is enabled: ${detail:text}
-```​
+```
 
 ## Section B
 
@@ -66,8 +64,8 @@ Content when Section A is enabled: ${detail:text}
 
 ```text
 Always-included section content
-```​
 ```
+````
 
 ## Root Template
 
@@ -161,10 +159,8 @@ The parser strips code fences automatically. Any language tag is accepted (`text
 
 ## Complete Example
 
-```markdown
+````markdown
 # Commit Message
-
-A template for generating structured commit messages.
 
 ## Root
 
@@ -172,7 +168,7 @@ A template for generating structured commit messages.
 
 ```text
 ${title}${body}${footer}
-```​
+```
 
 ## Title
 
@@ -180,7 +176,7 @@ ${title}${body}${footer}
 
 ```text
 ${commitType:"fix"|"feat"|"refactor"|"chore"}(${scope:text}): ${message:text}
-```​
+```
 
 ## Body
 
@@ -188,14 +184,14 @@ ${commitType:"fix"|"feat"|"refactor"|"chore"}(${scope:text}): ${message:text}
 
 ```text
 
-```​
+```
 
 ### textTemplate
 
 ```text
 
 ${description:text}
-```​
+```
 
 ## Footer
 
@@ -203,15 +199,15 @@ ${description:text}
 
 ```text
 
-```​
+```
 
 ### textTemplate
 
 ```text
 
 Co-authored-by: ${author:text}
-```​
 ```
+````
 
 In this example:
 - **Title** has no `defaultText`, so it's always included
@@ -223,7 +219,7 @@ In this example:
 
 ### Creating a New `.temp.md` File
 
-1. Start with `# Template Name` as the H1 heading
+1. Add `# Template Name` if the standalone file needs a name
 2. Add `## Root` with `### textTemplate` containing the main template body
 3. Use `${variableName}` for user inputs and `${subTemplateId}` for optional sections
 4. For each optional section, add a `## Section Name` with both `### defaultText` and `### textTemplate`
@@ -243,5 +239,5 @@ In this example:
 - **Missing `## Root` section** — every template must have a Root section with a textTemplate
 - **Referencing a sub-template ID that doesn't match** — the ID is camelCase of the heading, e.g., `"Hot reloading"` → `${hotReloading}`, not `${hot_reloading}` or `${Hot reloading}`
 - **Forgetting to reference new sub-templates from Root** — a sub-template not referenced (directly or transitively) from Root will never appear in output
-- **Using heading levels other than H1/H2/H3** — H1 is the name, H2 is template sections, H3 is content blocks. Deeper headings inside code fences are fine (they're template content, not structure)
+- **Using heading levels other than H1/H2/H3** — H1 is the optional name, H2 identifies sections, and H3 identifies content blocks. Use any heading level inside code fences.
 - **Omitting code fences** — while the parser can handle bare content, always use `` ```text `` fences for consistency and to avoid ambiguity with markdown formatting in template content
