@@ -1,9 +1,1 @@
-{
-  "name": "template-lang",
-  "version": "1.0.1",
-  "description": "template-lang skill",
-  "targets": [
-    "codex",
-    "claude"
-  ]
-}
+{"name": "template-lang", "version": "1.0.2", "description": "template-lang skill", "targets": ["codex", "claude"]}
